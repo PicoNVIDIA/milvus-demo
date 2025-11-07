@@ -1,0 +1,52 @@
+# NAT UI Config - For use with nat serve and the NAT UI
+# Run with: nat serve --config_file support-ui.yml --port 8000
+# export NVIDIA_API_KEY="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" && nat mcp serve --config_file examples/my_milvus_demo/configs/support-ui.yml --port 9904
+functions:
+  search_tickets:
+    _type: search_support_tickets
+    milvus_uri: "http://localhost:19530"
+    collection_name: "support_tickets"
+    embedder_name: nim_embedder
+    top_k: 5
+  
+  query_category:
+    _type: query_by_category
+    milvus_uri: "http://localhost:19530"
+    collection_name: "support_tickets"
+    top_k: 10
+  
+  query_priority:
+    _type: query_by_priority
+    milvus_uri: "http://localhost:19530"
+    collection_name: "support_tickets"
+    top_k: 10
+  
+  rerank_tickets:
+    _type: rerank_support_tickets
+    reranker_name: "nvidia/llama-3.2-nv-rerankqa-1b-v2"
+    top_k: 5
+
+embedders:
+  nim_embedder:
+    _type: nim
+    model_name: nvidia/nv-embedqa-e5-v5
+    truncate: "END"
+
+llms:
+  nim_llm:
+    _type: nim
+    model_name: meta/llama-3.1-70b-instruct
+    temperature: 0.0
+    max_tokens: 1024
+
+workflow:
+  _type: react_agent
+  tool_names:
+    - search_tickets
+    - query_category
+    - query_priority
+    - rerank_tickets
+  llm_name: nim_llm
+  verbose: true
+  parse_agent_response_max_retries: 3
+
