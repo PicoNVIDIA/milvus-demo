@@ -21,19 +21,19 @@ docker-compose up -d
 cd ~/natreal/NeMo-Agent-Toolkit
 source .venv311/bin/activate
 export NVIDIA_API_KEY="your-nvidia-api-key-here"
-python examples/my_milvus_demo/scripts/load_support_tickets.py
+python examples/mcp_rag_demo/scripts/load_support_tickets.py
 ```
 
 ### 3. Start NAT MCP Server (Terminal 1)
 ```bash
 export NVIDIA_API_KEY="your-nvidia-api-key-here"
-nat mcp serve --config_file examples/my_milvus_demo/configs/support-ui.yml --port 9904
+nat mcp serve --config_file examples/mcp_rag_demo/configs/support-ui.yml --port 9904
 ```
 
 ### 4. Start NAT UI Server (Terminal 2)
 ```bash
 export NVIDIA_API_KEY="your-nvidia-api-key-here"
-nat serve --config_file examples/my_milvus_demo/configs/mcp-client-for-ui.yml --port 8000
+nat serve --config_file examples/mcp_rag_demo/configs/mcp-client-for-ui.yml --port 8000
 ```
 
 ### 5. Start UI (Terminal 3)
@@ -44,7 +44,7 @@ npm run dev
 ```
 
 ### 6. Open Browser
-http://localhost:4000
+http://localhost:8000
 
 ## What This Demonstrates
 
